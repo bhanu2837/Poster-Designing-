@@ -1,0 +1,103 @@
+"""
+In this project we are designing a poster to represent the overview of the code in place 
+and thanking the code place, Instructors and section leader.
+The libraries used in this project are math, Pillow.
+The math library is used in this project for drawing rectangle outline of the background.
+The pillow library used to import the image, overlay the image, overlay the text.
+"""
+
+import math
+from PIL import Image, ImageDraw, ImageFont, ImagePalette
+
+"""
+Importing the required images for the background and overlaying the images and text. 
+"""
+
+layer1 = Image.open('/home/layer1.jpg')
+layer2 = Image.open('/home/karelLarge.png')
+layer3 = Image.open('/home/background.jpg')
+
+"""
+This function describes the background layer of the poster.
+It has two text elements which is main welcome message and overview of the course.
+Finally by combining of this three elements background,text1 and text2 it became one layer.
+"""
+
+def poster(layers):
+    export = ImageDraw.Draw(layers[0])
+    export_1 = ImageDraw.Draw(layers[1])
+    shape = [0,layers[0].width-210,layers[0].height+200,0]
+    shape_1 = [0,layers[1].width,layers[1].height,0]
+    export.rectangle(shape, width = 5, outline ="white")
+    export_1.rectangle(shape_1, width = 5, outline ="black")
+    myfont = ImageFont.truetype("/home/Lemon Friday.ttf", size=47)
+    myfont1 = ImageFont.truetype("/home/Catchland_PERSONAL_USE_ONLY.otf", size=40)
+    myfont2 = ImageFont.truetype("/home/Kawaii Stitch.otf", size=30)
+    myfont3 = ImageFont.truetype("/home/Lemon Friday.ttf", size=25)
+    export.text((20,10), "Welcome to code in place!" , font = myfont, fill=(255,255,255))
+    export.text((150,80), "Final project" , font = myfont1, fill=(255,205,125))
+    export.text((15,150), "Overview of code in place" , font = myfont2, fill=(255,100,255))
+    export.text((200,210), "week1 fun with karel" , font = myfont3, fill=(255,255,255))
+    export.text((200,240), "week2 python intro & controlflow" , font = myfont3, fill=(255,255,255))
+    export.text((200,270), "week3 core python & images" , font = myfont3, fill=(255,255,255))
+    export.text((200,300), "week4 lists & text" , font = myfont3, fill=(255,255,255))
+    export.text((200,330), "week5 dict, files & data science" , font = myfont3, fill=(255,255,255))
+
+    return layers
+
+"""
+This function describes the second layer of the poster.
+It has the two elements one is layer1 and another one is first overlay image.
+Finally by combining of the layer1 and layer2 it became another layer.
+"""
+
+def layer2copy(a,b,layers):
+    layer1_im = layers[0].copy()
+    layer1_im.paste(layers[1],(a,b))
+    layer1_im.save('/home/karelLarge_1.png', quality=95)
+    out = Image.open('/home/karelLarge_1.png')
+    return layers
+    return out
+
+"""
+This function describes the poster1 which represents overview of code in place.
+It has the three layers which represent background layer, first image layer, text layer.
+In the background layer the text is written for the representation of the welcome message and overview of the course.
+"""
+
+def poster1(layer1,layer2):
+    out = Image.open('/home/karelLarge_1.png')
+    layers = [layer1,layer2]
+    poster(layers)
+    layer2copy(5,200,layers)
+    out.show()
+
+"""
+This function describes the poster2 which represents thanking code place, instructors and section leader.
+It has the two layers which represent background layer and text layer.
+In the background layer the text is written for the representation of the thanking message.
+"""
+
+def poster2(layer3):
+    export = ImageDraw.Draw(layer3)
+    shape = [0,layer3.width-210,layer3.height+200,0]
+    export.rectangle(shape, width = 5, outline ="white")
+    myfont = ImageFont.truetype("/home/Lemon Friday.ttf", size=50)
+    myfont1 = ImageFont.truetype("/home/Kawaii Stitch.otf", size=30)
+    myfont2 = ImageFont.truetype("/home/Catchland_PERSONAL_USE_ONLY.otf", size=29)
+    export.text((30,30), "Thank you code in place" , font = myfont, fill=(255,255,255))
+    export.text((250,100), "and" , font = myfont1, fill=(255,205,125))
+    export.text((10,150), "(Chris Piech, Mehran Sahami, brahm" , font = myfont2, fill=(255,100,255))
+    export.text((30,200), "& Josh)" , font = myfont2, fill=(255,100,255))
+    export.text((30,260), "For this wonderful coding experience" , font = myfont2, fill=(255,255,255))
+    export.text((400,320), "Bye karel..." , font = myfont2, fill=(255,255,255))
+    layer3.show() 
+
+def main():
+# calling the poster1 function
+    poster1(layer1,layer2)
+# calling the poster2 function
+    poster2(layer3)
+
+if __name__ == '__main__':
+    main()
